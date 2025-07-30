@@ -21,6 +21,10 @@ type TcpClient struct {
 	reconnectDelay int
 }
 
+func Version() string {
+	return "1.0.3"
+}
+
 // NewTcpClient создает новый экземпляр TcpClient.
 func NewTcpClient(ip string, port string) *TcpClient {
 	tcpClient := &TcpClient{
