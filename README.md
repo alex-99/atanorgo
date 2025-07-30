@@ -25,3 +25,7 @@ func main() {
 ```
 
 ## Разработка
+
+для тестирования
+cmd/tcp/main.go  
+ncat -v -k  -l -p 5555
