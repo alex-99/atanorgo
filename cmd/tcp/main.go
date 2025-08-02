@@ -26,9 +26,16 @@ func main() {
 	for i := 0; i < 90; i++ {
 		tcp := avptcp.NewTcpClient("127.0.0.1", "5555")
 		tcp.Name = strconv.Itoa(i)
+		tcp.Debug = true
+		tcp.Delim = 9
+		tcp.Telnet = true
+		tcp.HelloMessage = "Hi\n"
 		tcp.OnConnect = func() {
 			fmt.Println("Connected")
 			tcp.Send([]byte("Hello, TCP " + tcp.Name + "\n"))
+			// time.Sleep(500 * time.Millisecond)
+			// tcp.Stop()
+			// cancel()
 		}
 		tcp.OnClose = func() {
 			fmt.Println("Closed")
@@ -37,16 +44,16 @@ func main() {
 			fmt.Println("Received "+tcp.Name+":", msg)
 		}
 		// go StartTcp(ctx, "127.0.0.1", "5555")
-		go tcp.StartReconnect(ctx)
+		tcp.StartReconnectGo(ctx)
 
-		fmt.Println("Closed")
+		// fmt.Println("Closed")
 
 	}
 	// Ожидаем либо сигнал, либо таймаут
 	select {
 	case <-sigChan:
 		fmt.Println("\nReceived shutdown signal")
-	case <-time.After(13 * time.Second):
+	case <-time.After(130 * time.Second):
 		fmt.Println("Timeout reached")
 	}
 
